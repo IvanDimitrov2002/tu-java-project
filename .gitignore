@@ -41,3 +41,4 @@ secrets.yml
 .sts4-cache
 src/main/resources/application-dev.properties
 src/test/resources/application-dev.properties
+docker-compose.yml
