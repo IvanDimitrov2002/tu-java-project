@@ -6,8 +6,11 @@ import tu.social.project.exception.CategoryAlreadyExistsException;
 import tu.social.project.mapper.CategoryMapper;
 import tu.social.project.payload.request.CreateCategoryRequest;
 import tu.social.project.payload.response.CreateCategoryResponse;
+import tu.social.project.payload.response.GetCategoriesResponse;
 import tu.social.project.repository.CategoryRepository;
 import tu.social.project.service.CategoryService;
+
+import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -28,5 +31,11 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryEntity categoryEntity = categoryMapper.mapToEntity(categoryToCreateRequest);
         categoryRepository.save(categoryEntity);
         return categoryMapper.mapCreateCategoryResponse(categoryEntity);
+    }
+
+    @Override
+    public List<GetCategoriesResponse> getCategories() {
+        List<CategoryEntity> categories = categoryRepository.findAll();
+        return categoryMapper.mapToGetCategoriesResponse(categories);
     }
 }
