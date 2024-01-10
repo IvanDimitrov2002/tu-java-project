@@ -66,4 +66,10 @@ public class PostController {
             .body(likeService.getNumberOfLikes(postId));
   }
 
+  @DeleteMapping("/{postId}/like")
+  public ResponseEntity<String> removeLike(@PathVariable String postId, @User UserEntity currentUser) {
+    likeService.removeLikeFromPost(postId, currentUser);
+    return ResponseEntity.ok("Like removed successfully!");
+  }
+
 }
