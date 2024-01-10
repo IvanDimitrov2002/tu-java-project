@@ -17,6 +17,7 @@ import tu.social.project.entity.UserEntity;
 import tu.social.project.payload.request.CreatePostRequest;
 import tu.social.project.payload.response.CreatePostResponse;
 import tu.social.project.payload.response.GetPostsResponse;
+import tu.social.project.payload.response.UserResponse;
 import tu.social.project.service.LikeService;
 import tu.social.project.service.PostService;
 
@@ -64,6 +65,12 @@ public class PostController {
   public ResponseEntity<Integer> getNumberOfLikes(@PathVariable String postId) {
     return ResponseEntity.status(HttpStatus.OK)
             .body(likeService.getNumberOfLikes(postId));
+  }
+
+  @GetMapping("/{postId}/likes/users")
+  public ResponseEntity<List<UserResponse>> getUsersWhoLikedPost(@PathVariable String postId) {
+    return ResponseEntity.status(HttpStatus.OK)
+            .body(likeService.getUsersWhoLikedPost(postId));
   }
 
   @DeleteMapping("/{postId}/like")

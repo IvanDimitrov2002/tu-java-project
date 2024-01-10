@@ -7,9 +7,13 @@ import tu.social.project.entity.UserEntity;
 import tu.social.project.exception.AlreadyLikedPostException;
 import tu.social.project.exception.LikeNotFoundException;
 import tu.social.project.exception.PostNotFoundException;
+import tu.social.project.payload.response.UserResponse;
 import tu.social.project.repository.LikeRepository;
 import tu.social.project.repository.PostRepository;
 import tu.social.project.service.LikeService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -48,6 +52,15 @@ public class LikeServiceImpl implements LikeService {
                 .orElseThrow(PostNotFoundException::new);
 
         return post.getLikes().size();
+    }
+
+    @Override
+    public List<UserResponse> getUsersWhoLikedPost(String postId) {
+        PostEntity post = postRepository.findById(postId)
+                .orElseThrow(PostNotFoundException::new);
+        return post.getLikes().stream()
+                .map(like -> new UserResponse(like.getUser().getId(), like.getUser().getUsername()))
+                .collect(Collectors.toList());
     }
 
     @Override
