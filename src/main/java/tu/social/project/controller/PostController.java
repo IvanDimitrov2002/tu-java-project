@@ -11,19 +11,25 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import tu.social.project.anotation.User;
 import tu.social.project.entity.CategoryEntity;
+import tu.social.project.entity.UserEntity;
 import tu.social.project.payload.request.CreatePostRequest;
 import tu.social.project.payload.response.CreatePostResponse;
 import tu.social.project.payload.response.GetPostsResponse;
+import tu.social.project.payload.response.UserResponse;
+import tu.social.project.service.LikeService;
 import tu.social.project.service.PostService;
 
 @RequestMapping("/posts")
 @RestController
 public class PostController {
   private final PostService postService;
+  private final LikeService likeService;
 
-  public PostController(PostService postService) {
+  public PostController(PostService postService, LikeService likeService) {
     this.postService = postService;
+    this.likeService = likeService;
   }
 
   @Operation(summary = "Create a post with a title, content and author")
@@ -48,4 +54,29 @@ public class PostController {
     return ResponseEntity.status(HttpStatus.OK)
         .body(postService.getPostsByAuthor(authorId));
   }
+
+  @PostMapping("/{postId}/like")
+  public ResponseEntity<String> addLike(@PathVariable String postId, @User UserEntity currentUser) {
+    likeService.addLikeToPost(postId, currentUser);
+    return ResponseEntity.ok("Post liked successfully!");
+  }
+
+  @GetMapping("/{postId}/likes")
+  public ResponseEntity<Integer> getNumberOfLikes(@PathVariable String postId) {
+    return ResponseEntity.status(HttpStatus.OK)
+            .body(likeService.getNumberOfLikes(postId));
+  }
+
+  @GetMapping("/{postId}/likes/users")
+  public ResponseEntity<List<UserResponse>> getUsersWhoLikedPost(@PathVariable String postId) {
+    return ResponseEntity.status(HttpStatus.OK)
+            .body(likeService.getUsersWhoLikedPost(postId));
+  }
+
+  @DeleteMapping("/{postId}/like")
+  public ResponseEntity<String> removeLike(@PathVariable String postId, @User UserEntity currentUser) {
+    likeService.removeLikeFromPost(postId, currentUser);
+    return ResponseEntity.ok("Like removed successfully!");
+  }
+
 }

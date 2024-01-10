@@ -2,6 +2,9 @@ package tu.social.project.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = PostEntity.TABLE_NAME)
 public class PostEntity {
@@ -25,6 +28,9 @@ public class PostEntity {
   @ManyToOne
   @JoinColumn(name = AUTHOR_ID_COLUMN, referencedColumnName = UserEntity.ID_COLUMN, nullable = false)
   private UserEntity author;
+
+  @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<LikeEntity> likes = new HashSet<>();
 
   public String getId() {
     return id;
@@ -56,5 +62,13 @@ public class PostEntity {
 
   public void setContent(String content) {
     this.content = content;
+  }
+
+  public Set<LikeEntity> getLikes() {
+    return likes;
+  }
+
+  public void setLikes(Set<LikeEntity> likes) {
+    this.likes = likes;
   }
 }
