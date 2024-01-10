@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import tu.social.project.exception.AlreadyLikedPostException;
 import tu.social.project.exception.PostNotFoundException;
 import tu.social.project.payload.response.ErrorResponse;
 
