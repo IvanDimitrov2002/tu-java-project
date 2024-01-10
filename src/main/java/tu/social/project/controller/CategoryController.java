@@ -5,13 +5,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import tu.social.project.entity.CategoryEntity;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import tu.social.project.payload.request.CreateCategoryRequest;
 import tu.social.project.payload.response.CreateCategoryResponse;
+import tu.social.project.payload.response.ErrorResponse;
 import tu.social.project.payload.response.GetCategoriesResponse;
 import tu.social.project.service.CategoryService;
 
@@ -19,6 +21,7 @@ import java.util.List;
 
 @RequestMapping("/categories")
 @RestController
+@Tag(name = "Categories")
 public class CategoryController {
     private final CategoryService categoryService;
 
@@ -28,9 +31,10 @@ public class CategoryController {
 
     @Operation(summary = "Create a category with a name")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Created category", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryEntity.class)) }),
-            @ApiResponse(responseCode = "400", description = "Invalid name supplied", content = @Content),
+            @ApiResponse(responseCode = "201", description = "Created category", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = CreateCategoryResponse.class)) }),
+            @ApiResponse(responseCode = "409", description = "Category already exists", content =  {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
     })
     @PostMapping
     public ResponseEntity<CreateCategoryResponse> createCategory(
@@ -42,7 +46,7 @@ public class CategoryController {
     @Operation(summary = "Get all categories")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found all categories", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryEntity.class)) }),
+                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = GetCategoriesResponse.class))) }),
     })
     @GetMapping
     public ResponseEntity<List<GetCategoriesResponse>> getCategories() {
