@@ -10,8 +10,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import tu.social.project.payload.request.CreateCategoryRequest;
 import tu.social.project.payload.response.CreateCategoryResponse;
+import tu.social.project.payload.response.ErrorResponse;
 import tu.social.project.payload.response.GetCategoriesResponse;
 import tu.social.project.service.CategoryService;
 
@@ -19,6 +21,7 @@ import java.util.List;
 
 @RequestMapping("/categories")
 @RestController
+@Tag(name = "Categories")
 public class CategoryController {
     private final CategoryService categoryService;
 
@@ -30,7 +33,8 @@ public class CategoryController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created category", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = CreateCategoryResponse.class)) }),
-            @ApiResponse(responseCode = "409", description = "Category already exists", content = @Content),
+            @ApiResponse(responseCode = "409", description = "Category already exists", content =  {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
     })
     @PostMapping
     public ResponseEntity<CreateCategoryResponse> createCategory(

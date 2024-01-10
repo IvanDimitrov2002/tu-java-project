@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import tu.social.project.anotation.User;
 import tu.social.project.entity.UserEntity;
 import tu.social.project.payload.request.*;
@@ -16,6 +17,7 @@ import tu.social.project.service.CommentService;
 
 @RestController
 @RequestMapping("/comments")
+@Tag(name = "Comments")
 public class CommentController {
 
 	private final CommentService commentService;
@@ -48,7 +50,8 @@ public class CommentController {
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Comment edited", content = {
           @Content(mediaType = "application/json", schema = @Schema(implementation = EditCommentResponse.class)) }),
-			@ApiResponse(responseCode = "403", description = "Comment can be edited only by its author", content = @Content),
+			@ApiResponse(responseCode = "403", description = "Comment can be edited only by its author", content = {
+				@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
   })
 	@PutMapping
 	public ResponseEntity<EditCommentResponse> editComment(@RequestBody EditCommentRequest request, @User UserEntity user) {
@@ -58,7 +61,8 @@ public class CommentController {
 	@Operation(summary = "Delete comment")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "204", description = "Comment deleted", content = @Content),
-			@ApiResponse(responseCode = "403", description = "Comment can be deleted only by its author or post's author", content = @Content),
+			@ApiResponse(responseCode = "403", description = "Comment can be deleted only by its author or post's author", content = {
+				@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
   })
 	@DeleteMapping
 	public ResponseEntity<Void> deleteComment(@RequestBody DeleteCommentRequest request, @User UserEntity user) {
