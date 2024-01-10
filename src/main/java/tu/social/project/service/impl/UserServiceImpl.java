@@ -1,7 +1,6 @@
 package tu.social.project.service.impl;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tu.social.project.component.jwt.UserJwtTokenGenerator;

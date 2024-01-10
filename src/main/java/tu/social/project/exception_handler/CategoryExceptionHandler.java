@@ -12,8 +12,8 @@ import tu.social.project.payload.response.ErrorResponse;
 @ControllerAdvice
 public class CategoryExceptionHandler {
     @ExceptionHandler(CategoryAlreadyExistsException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.CONFLICT)
     public ResponseEntity<ErrorResponse> handle(CategoryAlreadyExistsException exception) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(exception.getMessage()));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse(exception.getMessage()));
     }
 }
