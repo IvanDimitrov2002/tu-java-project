@@ -42,3 +42,4 @@ secrets.yml
 src/main/resources/application-dev.properties
 src/test/resources/application-dev.properties
 docker-compose.yml
+/src/test/resources/application-test-dev.properties

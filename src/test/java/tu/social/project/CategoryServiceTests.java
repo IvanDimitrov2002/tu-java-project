@@ -30,17 +30,18 @@ public class CategoryServiceTests {
 	@InjectMocks
 	private CategoryServiceImpl categoryService;
 
+	private final CreateCategoryRequest createCategoryRequest = new CreateCategoryRequest("name");
+
 	@Test
 	public void createCategory_Success() {
-		CreateCategoryRequest request = new CreateCategoryRequest(any());
 		CategoryEntity categoryEntity = new CategoryEntity();
 		CreateCategoryResponse expectedResponse = new CreateCategoryResponse("1", "name");
 
-		when(categoryRepository.existsByName(request.name())).thenReturn(false);
-		when(categoryMapper.mapToEntity(request)).thenReturn(categoryEntity);
+		when(categoryRepository.existsByName(createCategoryRequest.name())).thenReturn(false);
+		when(categoryMapper.mapToEntity(createCategoryRequest)).thenReturn(categoryEntity);
 		when(categoryMapper.mapCreateCategoryResponse(categoryEntity)).thenReturn(expectedResponse);
 
-		CreateCategoryResponse response = categoryService.createCategory(request);
+		CreateCategoryResponse response = categoryService.createCategory(createCategoryRequest);
 
 		assertNotNull(response);
 		assertEquals(expectedResponse, response);
@@ -65,11 +66,9 @@ public class CategoryServiceTests {
 
 	@Test(expected = CategoryAlreadyExistsException.class)
 	public void createCategory_AlreadyExists() {
-		CreateCategoryRequest request = new CreateCategoryRequest(any());
+		when(categoryRepository.existsByName(createCategoryRequest.name())).thenReturn(true);
 
-		when(categoryRepository.existsByName(request.name())).thenReturn(true);
-
-		categoryService.createCategory(request);
+		categoryService.createCategory(createCategoryRequest);
 	}
 
 }

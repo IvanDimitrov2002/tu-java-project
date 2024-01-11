@@ -29,10 +29,13 @@ public class PostServiceTests {
 	@InjectMocks
 	private PostServiceImpl postService;
 
+	private final CreatePostRequest request = new CreatePostRequest("1", "2", "3");
+
+	private final GetPostsResponse getPostsResponse = new GetPostsResponse("1", "2", "3", "4");
+
 	@Test
 	public void createPost_Success() {
-		CreatePostRequest request = new CreatePostRequest(any(), any(), any());
-		PostEntity postEntity = new PostEntity(/* parameters */);
+		PostEntity postEntity = new PostEntity();
 		CreatePostResponse expectedResponse = new CreatePostResponse("1", "2", "3", "4");
 
 		when(postMapper.mapToEntity(request)).thenReturn(postEntity);
@@ -49,7 +52,7 @@ public class PostServiceTests {
 	public void getPostsByAuthor_Success() {
 		String authorId = "authorId";
 		List<PostEntity> posts = List.of(new PostEntity());
-		List<GetPostsResponse> expectedResponses = List.of(new GetPostsResponse(any(), any(), any(), any()));
+		List<GetPostsResponse> expectedResponses = List.of(getPostsResponse);
 
 		when(postRepository.findAllByAuthorId(authorId)).thenReturn(posts);
 		when(postMapper.mapToGetPostsResponse(posts)).thenReturn(expectedResponses);

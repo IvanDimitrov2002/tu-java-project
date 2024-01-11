@@ -82,7 +82,7 @@ public class LikeServiceTests {
 	@Test(expected = PostNotFoundException.class)
 	public void addLikeToPost_PostNotFound() {
 		String postId = "somePostId";
-		UserEntity user = new UserEntity(/* parameters */);
+		UserEntity user = new UserEntity();
 
 		when(postRepository.findById(postId)).thenReturn(Optional.empty());
 
