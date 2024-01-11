@@ -10,5 +10,5 @@ Rename `application-dev.properties.template` to `application-dev.properties` and
 
 ### Swagger
 
-Swagger UI API schema is available at `/swagger-ui/index.html`
-Swagger JSON schema is available at `/v3/api-docs`
+Swagger UI API schema is available at `/api/swagger-ui/index.html`
+Swagger JSON schema is available at `/api/v3/api-docs`
