@@ -37,8 +37,8 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public GetCommentsResponse getComments(GetCommentsRequest request) {
-		return this.commentMapper.mapGetCommentsResponse(this.commentRepository.findByPostId(request.postId()));
+	public GetCommentsResponse getComments(String postId) {
+		return this.commentMapper.mapGetCommentsResponse(this.commentRepository.findByPostId(postId));
 	}
 
 	@Override
@@ -61,6 +61,5 @@ public class CommentServiceImpl implements CommentService {
 		this.commentRepository.delete(comment);
 		return null;
 	}
-
 
 }

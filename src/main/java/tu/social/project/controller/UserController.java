@@ -49,7 +49,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User with this email does not exist", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) }),
     })
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<LoginUserResponse> login(@RequestBody LoginUserRequest request) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(this.userService.login(request));

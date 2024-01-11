@@ -41,9 +41,9 @@ public class CommentController {
       @ApiResponse(responseCode = "200", description = "Comments found", content = {
           @Content(mediaType = "application/json", schema = @Schema(implementation = GetCommentsResponse.class)) }),
   })
-	@GetMapping
-	public ResponseEntity<GetCommentsResponse> getComments(@RequestBody GetCommentsRequest request) {
-		return ResponseEntity.status(HttpStatus.OK).body(this.commentService.getComments(request));
+	@GetMapping("/{postId}")
+	public ResponseEntity<GetCommentsResponse> getComments(@PathVariable("postId") String postId) {
+		return ResponseEntity.status(HttpStatus.OK).body(this.commentService.getComments(postId));
 	}
 
 	@Operation(summary = "Edit comment")

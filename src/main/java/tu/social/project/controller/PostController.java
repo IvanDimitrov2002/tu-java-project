@@ -57,6 +57,17 @@ public class PostController {
         .body(postService.getPostsByAuthor(authorId));
   }
 
+  @Operation(summary = "Get liked posts by user")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Found liked posts", content = {
+          @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = GetPostsResponse.class))) }),
+  })
+  @GetMapping("/user/{authorId}/liked")
+  public ResponseEntity<List<GetPostsResponse>> getLikedPostsByUser(@PathVariable("authorId") String authorId) {
+    return ResponseEntity.status(HttpStatus.OK)
+        .body(postService.getPostsByAuthor(authorId));
+  }
+
   @Operation(summary = "Like a post")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Post liked", content = {
