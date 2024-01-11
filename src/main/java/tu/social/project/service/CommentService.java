@@ -8,7 +8,7 @@ public interface CommentService {
 
 	CreateCommentResponse createComment(CreateCommentRequest request, UserEntity user);
 
-	GetCommentsResponse getComments(GetCommentsRequest request);
+	GetCommentsResponse getComments(String postId);
 
 	EditCommentResponse editComment(EditCommentRequest request, UserEntity user);
 

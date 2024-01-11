@@ -34,4 +34,10 @@ public class PostServiceImpl implements PostService {
     List<PostEntity> posts = postRepository.findAllByAuthorId(authorId);
     return postMapper.mapToGetPostsResponse(posts);
   }
+
+  @Override
+  public List<GetPostsResponse> getUserLikedPosts(String userId) {
+    List<PostEntity> posts = postRepository.findAllLikedByUserId(userId);
+    return postMapper.mapToGetPostsResponse(posts);
+  }
 }

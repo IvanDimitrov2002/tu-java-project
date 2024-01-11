@@ -10,4 +10,6 @@ public interface PostService {
   CreatePostResponse createPost(CreatePostRequest request);
 
   List<GetPostsResponse> getPostsByAuthor(String authorId);
+
+  List<GetPostsResponse> getUserLikedPosts(String userId);
 }
